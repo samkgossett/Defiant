@@ -1,0 +1,301 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved.
+     Licensed under the MIT License. -->
+<style>
+    h1 {
+        font-size: 100px;
+        color: #c245ec;
+        font-weight: 500;
+        margin-top: -20px;
+    }
+
+    h2 {
+        padding-top: 100px;
+        font-size: 35px;
+        color: #a249c0;
+        font-weight: 500;
+    }
+
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #c245ec;
+        width: 8px;
+        height: 8px;
+        -webkit-animation: spin 2s linear infinite;
+        /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .content {
+        display: flex;
+        margin: 0px auto 32px;
+        padding: 0 16px;
+        max-width: 960px;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%)
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .container {
+        padding: 2px 16px;
+    }
+
+    .card svg.material-icons path {
+        fill: #000;
+    }
+
+
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 16px;
+    }
+
+    .card {
+        border-radius: 4px;
+        background-color: #6d20ac;
+        width: 500px;
+        min-height: 100px;
+        margin: 0 8px 16px;
+        padding: 16px;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease-in-out;
+        line-height: 24px;
+    }
+
+    .card-container .card:not(:last-child) {
+        margin-right: 0;
+    }
+
+    .card.card-small {
+        height: 16px;
+        width: 168px;
+    }
+
+    .card-container .card:not(.highlight-card) {
+        cursor: pointer;
+    }
+
+    .card-container .card:not(.highlight-card):hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
+    }
+
+    .card-container .card:not(.highlight-card):hover .material-icons path {
+        fill: #fe5dff;
+    }
+
+    .card.highlight-card {
+        background-color: #1976d2;
+        color: white;
+        font-weight: 600;
+        border: none;
+        width: auto;
+        min-width: 30%;
+        position: relative;
+    }
+
+    .card.card.highlight-card span {
+        margin-left: 60px;
+    }
+</style>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Verifiable Credential Expert</title>
+    <meta name="description" content="Verifiable Credentials Expert">
+    <meta name="author" content="Microsoft">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.png">
+
+</head>
+
+<body>
+    <div id="wrap">
+        <div style="text-align: center;">
+            <h2>Welcome to</h2>
+            <h1>Defiant</h1>
+            <div class="card-container">
+                <div class="card" style="background-color: #6d20ac;">
+                    <div class="container">
+
+                        <h3><b>Create your DID and get verified</b></h3>
+                        <p id="userVidText">Upload a video of yourself to begin.</p>
+                        <div id="vidDiv" style="display:block;">
+                            <input id="userVid" type="file" onchange="unlockButton()" accept=" video/*" />
+                            <br><br>
+                            <button type="button" id="verButton" class="button" title="upload video to unlock!"
+                                disabled>GET
+                                VERIFIED</button>
+                        </div>
+
+                        <div id="verStage" style="display:none;">
+                            <br>
+                            <h3><b>Get 2 users to upload videos of you to verify your identity</b></h3>
+                            <div class="container">
+                                <div id="wrapperDiv" style="padding: 20px;">
+                                    <div style="float:left; padding-right: 10px;">
+                                        <div class="loader" id="user1load"></div>
+                                    </div>
+                                    <div style="float:left;">
+                                        <p id="user1ver"> Waiting on user 1 verification...</p>
+                                        <div id="u1qrcode" style="text-align: center"></div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div id="wrapperDiv" style="padding: 20px;">
+                                    <div style="float:left; padding-right: 10px;">
+                                        <div class="loader" id="user2load"></div>
+                                    </div>
+                                    <div style="float:left;">
+                                        <p id="user2ver"> Waiting on user 2 verification...</p>
+                                        <div id="u2qrcode" style="text-align: center"></div>
+                                    </div>
+                                </div><div>
+                                    <button style="margin: 10px;" type="button" id="sign-in" class="button"
+                                    title="unlocks after both users verify">Unlock your QR code</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div id="qrText" style="display:none;">
+                            <br>
+                            <h3><b>Scan the QR code below with the Microsoft Authenticator app</b></h3>
+                            <img src="authenticator-icon.png" alt="Authenticator icon" class="icon-small"><br>
+                            <a id="deeplink" style="display: none;margin-top: 10px;">Tap to open Authenticator on
+                                mobile</a>
+                            <div id="qrcode" style="text-align: center"></div>
+                            <script src="qrcode.min.js"></script>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <footer>
+            <p class="text-center text-gray tiny-text margin-top-75"><strong>SDK Version:</strong> 0.11.1</BR></BR>
+                <strong>Minimum MS Authenticator version required:</strong></BR></BR>
+                Android: 6.2102.1274</BR>
+                IOS: 6.5.38
+            </p>
+        </footer>
+    </div>
+</body>
+
+<script>
+    var chosen = null;
+    var signIn = document.getElementById('sign-in');
+    var signOut = document.getElementById('sign-out');
+    var display = document.getElementById('display');
+    
+    var qrcode = new QRCode("qrcode", { width: 300, height: 300 });
+    var u1qrcode = new QRCode("u1qrcode", { width: 300, height: 300 });
+    var u2qrcode = new QRCode("u2qrcode", { width: 300, height: 300 });
+
+    var othersVerify = document.getElementById('verButton');
+
+    function unlockButton() {
+        document.getElementById("verButton").disabled = false;
+    }
+    verButton.addEventListener('click', () => {
+        document.getElementById('userVidText').innerHTML = "Video sucessfully attached to DID!"
+        document.getElementById('userVid').style.display = "none"
+        document.getElementById('vidDiv').style.display = "none"
+        document.getElementById('verButton').style.display = "none";
+        document.getElementById('verStage').style.display = "block";
+
+        chosen = 1;
+        fetch('issue-request')
+            .then(function (response) {
+                response.text().then(function (message) {
+                    if (/Android/i.test(navigator.userAgent)) {
+                        console.log(`Android device! Using deep link (${message}).`);
+                        window.location.href = message; setTimeout(function () {
+                            window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator";
+                        }, 2000);
+                    } else if (/iPhone/i.test(navigator.userAgent)) {
+                        console.log(`iOS device! Using deep link (${message}).`);
+                        window.location.replace(message);
+                    } else {
+                        u1qrcode.makeCode(message);
+                        u2qrcode.makeCode(message);
+                    }
+                }).catch(error => {
+                    console.log(error.message);
+                })
+            }).catch(error => {
+                console.log(error.message);
+            })
+
+
+    })
+
+    signIn.addEventListener('click', () => {
+
+        document.getElementById('verStage').style.display = "none";
+        document.getElementById('userVidText').innerHTML = "Final step!"
+        chosen = 1;
+        fetch('issue-request')
+            .then(function (response) {
+                response.text().then(function (message) {
+                    if (/Android/i.test(navigator.userAgent)) {
+                        console.log(`Android device! Using deep link (${message}).`);
+                        window.location.href = message; setTimeout(function () {
+                            window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator";
+                        }, 2000);
+                    } else if (/iPhone/i.test(navigator.userAgent)) {
+                        console.log(`iOS device! Using deep link (${message}).`);
+                        window.location.replace(message);
+                    } else {
+                        console.log(`Not Android or IOS. Generating QR code encoded with ${message}`);
+                        qrcode.makeCode(message);
+                        document.getElementById('sign-in').style.display = "none";
+                        document.getElementById('qrText').style.display = "block";
+                    }
+                }).catch(error => {
+                    console.log(error.message);
+                })
+            }).catch(error => {
+                console.log(error.message);
+            })
+    })
+</script>
+
+</html>
