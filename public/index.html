@@ -154,13 +154,15 @@
                     <div class="container">
 
                         <h3><b>Create your DID and get verified</b></h3>
-                        <p id="userVidText">Upload a video of yourself to begin.</p>
+
+                        <p id="userVidText">Click below to begin.</p>
+                        <button type="button" id="verButton" class="button" title="upload video to unlock!">GET
+                            VERIFIED</button>
                         <div id="vidDiv" style="display:block;">
-                            <input id="userVid" type="file" onchange="unlockButton()" accept=" video/*" />
-                            <br><br>
-                            <button type="button" id="verButton" class="button" title="upload video to unlock!"
-                                disabled>GET
-                                VERIFIED</button>
+                            <br>
+                            <input id="userVid" type="file" onchange="uploadedVideo()" accept=" video/*"
+                                style="display:none;" />
+
                         </div>
 
                         <div id="verStage" style="display:none;">
@@ -185,11 +187,12 @@
                                         <p id="user2ver"> Waiting on user 2 verification...</p>
                                         <div id="u2qrcode" style="text-align: center"></div>
                                     </div>
-                                </div><div>
-                                    <button style="margin: 10px;" type="button" id="sign-in" class="button"
-                                    title="unlocks after both users verify">Unlock your QR code</button>
                                 </div>
-                                
+                                <div>
+                                    <button style="margin: 10px;" type="button" id="sign-in" class="button"
+                                        title="unlocks after both users verify">Unlock your QR code</button>
+                                </div>
+
                             </div>
                         </div>
 
@@ -224,17 +227,14 @@
     var signIn = document.getElementById('sign-in');
     var signOut = document.getElementById('sign-out');
     var display = document.getElementById('display');
-    
+    var video = document.getElementById('userVid');
     var qrcode = new QRCode("qrcode", { width: 300, height: 300 });
     var u1qrcode = new QRCode("u1qrcode", { width: 300, height: 300 });
     var u2qrcode = new QRCode("u2qrcode", { width: 300, height: 300 });
 
     var othersVerify = document.getElementById('verButton');
 
-    function unlockButton() {
-        document.getElementById("verButton").disabled = false;
-    }
-    verButton.addEventListener('click', () => {
+    function uploadedVideo() {
         document.getElementById('userVidText').innerHTML = "Video sucessfully attached to DID!"
         document.getElementById('userVid').style.display = "none"
         document.getElementById('vidDiv').style.display = "none"
@@ -263,8 +263,10 @@
             }).catch(error => {
                 console.log(error.message);
             })
+    }
 
-
+    verButton.addEventListener('click', () => {
+        document.getElementById('userVid').style.display = "block";
     })
 
     signIn.addEventListener('click', () => {
