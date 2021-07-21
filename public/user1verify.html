@@ -1,0 +1,59 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved.
+     Licensed under the MIT License. -->
+
+    <html lang="en">
+    
+    <head>
+        <meta charset="utf-8">
+        <title>user1verify</title>
+        <meta name="user1verify" content="Verifiable Credentials Expert">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="icon" href="favicon.png">
+    
+    </head>
+    
+    <body>
+        <div id="wrap">
+            <div style="text-align: center;">
+                <h2>User 1 Verification page</h2>
+                <div class="card-container">
+                    <div class="card" style="background-color: #6d20ac;">
+                        <div class="container">
+    
+                            <h3 id="userVidText"><b>Upload the video of the user you are verifying.</b></h3>
+
+                            <div id="vidDiv" style="display:block;">
+                            <br>
+                            <input id="userVideo1" type="file" onchange="uploadedVideo()" accept=" video/*"/>
+
+                        </div>
+    
+                        </div>
+                    </div>
+                </div>
+    
+    
+            </div>
+            <footer>
+                <p class="text-center text-gray tiny-text margin-top-75"><strong>SDK Version:</strong> 0.11.1</BR></BR>
+                    <strong>Minimum MS Authenticator version required:</strong></BR></BR>
+                    Android: 6.2102.1274</BR>
+                    IOS: 6.5.38
+                </p>
+            </footer>
+        </div>
+    </body>
+    
+    <script>
+        var chosen = null;
+        var video = document.getElementById('userVideo1');
+        function uploadedVideo() {
+            document.getElementById('userVidText').innerHTML = "Video sucessfully uploaded!"
+            document.getElementById('userVideo1').style.display = "none"
+            
+            // send check to index page about completion
+        }
+    
+    </script>
+    
+    </html>

@@ -1,144 +1,9 @@
-<!-- Copyright (c) Microsoft Corporation. All rights reserved.
-     Licensed under the MIT License. -->
-<style>
-    h1 {
-        font-size: 100px;
-        color: #c245ec;
-        font-weight: 500;
-        margin-top: -20px;
-    }
-
-    h2 {
-        padding-top: 100px;
-        font-size: 35px;
-        color: #a249c0;
-        font-weight: 500;
-    }
-
-    .loader {
-        border: 16px solid #f3f3f3;
-        border-radius: 50%;
-        border-top: 16px solid #c245ec;
-        width: 8px;
-        height: 8px;
-        -webkit-animation: spin 2s linear infinite;
-        /* Safari */
-        animation: spin 2s linear infinite;
-    }
-
-    /* Safari */
-    @-webkit-keyframes spin {
-        0% {
-            -webkit-transform: rotate(0deg);
-        }
-
-        100% {
-            -webkit-transform: rotate(360deg);
-        }
-    }
-
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    .content {
-        display: flex;
-        margin: 0px auto 32px;
-        padding: 0 16px;
-        max-width: 960px;
-        flex-direction: column;
-        align-items: center;
-        position: absolute;
-        top: 30%;
-        left: 50%;
-        margin-right: -50%;
-        transform: translate(-50%, -50%)
-    }
-
-    .card:hover {
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    }
-
-    .container {
-        padding: 2px 16px;
-    }
-
-    .card svg.material-icons path {
-        fill: #000;
-    }
-
-
-    .card-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 16px;
-    }
-
-    .card {
-        border-radius: 4px;
-        background-color: #6d20ac;
-        width: 500px;
-        min-height: 100px;
-        margin: 0 8px 16px;
-        padding: 16px;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        transition: all 0.2s ease-in-out;
-        line-height: 24px;
-    }
-
-    .card-container .card:not(:last-child) {
-        margin-right: 0;
-    }
-
-    .card.card-small {
-        height: 16px;
-        width: 168px;
-    }
-
-    .card-container .card:not(.highlight-card) {
-        cursor: pointer;
-    }
-
-    .card-container .card:not(.highlight-card):hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
-    }
-
-    .card-container .card:not(.highlight-card):hover .material-icons path {
-        fill: #fe5dff;
-    }
-
-    .card.highlight-card {
-        background-color: #1976d2;
-        color: white;
-        font-weight: 600;
-        border: none;
-        width: auto;
-        min-width: 30%;
-        position: relative;
-    }
-
-    .card.card.highlight-card span {
-        margin-left: 60px;
-    }
-</style>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <title>Verifiable Credential Expert</title>
     <meta name="description" content="Verifiable Credentials Expert">
-    <meta name="author" content="Microsoft">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.png">
 
@@ -175,7 +40,9 @@
                                     </div>
                                     <div style="float:left;">
                                         <p id="user1ver"> Waiting on user 1 verification...</p>
-                                        <div id="u1qrcode" style="text-align: center"></div>
+                                        <a href="../user1verify.html" target="_blank">Visit!</a> 
+                                        <img id='qrcodeu1' src="https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:8081/user1verify.html"
+                                        alt="" title="user1" width="300" height="300" />
                                     </div>
                                 </div>
                                 <br>
@@ -185,7 +52,9 @@
                                     </div>
                                     <div style="float:left;">
                                         <p id="user2ver"> Waiting on user 2 verification...</p>
-                                        <div id="u2qrcode" style="text-align: center"></div>
+                                        <a href="../user2verify.html" target="_blank">Visit!</a> 
+                                        <img id='qrcodeu2' src="https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:8081/user2verify.html"
+                                        alt="" title="user2" width="300" height="300" />
                                     </div>
                                 </div>
                                 <div>
@@ -229,10 +98,26 @@
     var display = document.getElementById('display');
     var video = document.getElementById('userVid');
     var qrcode = new QRCode("qrcode", { width: 300, height: 300 });
-    var u1qrcode = new QRCode("u1qrcode", { width: 300, height: 300 });
-    var u2qrcode = new QRCode("u2qrcode", { width: 300, height: 300 });
+    var qrcodeu1 = new QRCode("qrcodeu1", {
+        text: "http://localhost:8081/user1verify",
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+
+    var qrcodeu2 = new QRCode("qrcodeu2", {
+        text: "http://localhost:8081/user2verify",
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
 
     var othersVerify = document.getElementById('verButton');
+
 
     function uploadedVideo() {
         document.getElementById('userVidText').innerHTML = "Video sucessfully attached to DID!"
