@@ -12,57 +12,62 @@
 <body>
     <div id="wrap">
         <div style="text-align: center;">
-            <h2>Welcome to</h2>
+            <h2 style="margin-top: 150px;">Welcome to</h2>
             <h1>Defiant</h1>
             <div class="card-container">
-                <div class="card" style="background-color: #6d20ac;">
+                <div class="card">
                     <div class="container">
 
                         <h3><b>Create your DID and get verified</b></h3>
 
-                        <p id="userVidText">Click below to begin.</p>
+                        <p id="witnessVidText">Click below to begin.</p>
                         <button type="button" id="verButton" class="button" title="upload video to unlock!">GET
                             VERIFIED</button>
-                        <div id="vidDiv" style="display:block;">
+                        <div id="vidDiv" style="display:block; ">
                             <br>
-                            <input id="userVid" type="file" onchange="uploadedVideo()" accept=" video/*"
-                                style="display:none;" />
+                            
+                            <input id="witnessVid" type="file" onchange="uploadedVideo()" accept=" video/*"
+                                style="display:none;
+                                margin: auto; width: 200px;" />
+                                
 
                         </div>
 
                         <div id="verStage" style="display:none;">
                             <br>
-                            <h3><b>Get 2 users to upload videos of you to verify your identity</b></h3>
-                            <div class="container">
-                                <div id="wrapperDiv" style="padding: 20px;">
+                            <h3><b>Get 2 witnesses to upload videos of you to verify your identity</b></h3>
+                                <div id="wrapperDiv" style="padding-top: 20px; margin: 20px;">
                                     <div style="float:left; padding-right: 10px;">
-                                        <div class="loader" id="user1load"></div>
+                                        <div class="loader" id="witness1load" :changed></div>
                                     </div>
                                     <div style="float:left;">
-                                        <p id="user1ver"> Waiting on user 1 verification...</p>
-                                        <a href="../user1verify.html" target="_blank">Visit!</a> 
-                                        <img id='qrcodeu1' src="https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:8081/user1verify.html"
-                                        alt="" title="user1" width="300" height="300" />
-                                    </div>
+                                        <p id="witness1ver" style="line-height: 10px;">  Waiting on witness 1 verification...</p>
+                                        <img id='qrcodeu1' src="https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:8081/witness1verify.html"
+                                        alt="" title="witness1" width="300" height="300" />
+                                        
+                                    </div> 
                                 </div>
-                                <br>
-                                <div id="wrapperDiv" style="padding: 20px;">
+                                <div id="wrapperDiv2" style="padding-top: 20px; margin: 20px;">
                                     <div style="float:left; padding-right: 10px;">
-                                        <div class="loader" id="user2load"></div>
-                                    </div>
-                                    <div style="float:left;">
-                                        <p id="user2ver"> Waiting on user 2 verification...</p>
-                                        <a href="../user2verify.html" target="_blank">Visit!</a> 
-                                        <img id='qrcodeu2' src="https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:8081/user2verify.html"
-                                        alt="" title="user2" width="300" height="300" />
-                                    </div>
+                                        <div style="float:left; padding-right: 10px;">
+                                            <div class="loader" id="witness2load" :changed></div>
+                                        </div>
+
+                                        <div style="float:left;">
+                                         <p id="witness2ver" style="line-height: 10px;">  Waiting on witness 2 verification...</p>
+                                        <img id='qrcodeu2' src="https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:8081/witness2verify.html"
+                                        alt="" title="witness2" width="300" height="300" />
+                                    </div> </div>
+                                       
                                 </div>
                                 <div>
-                                    <button style="margin: 10px;" type="button" id="sign-in" class="button"
-                                        title="unlocks after both users verify">Unlock your QR code</button>
+                                    <button style="margin-top: 30px;" type="button" id="sign-in" class="button"
+                                        title="unlocks after both witnesss verify">Unlock your QR code</button>
                                 </div>
-
-                            </div>
+                                <!--
+                                <a href="../witness1verify.html" target="_blank">u1 page</a> 
+                                <a href="../witness2verify.html" target="_blank">u2 page</a> 
+                                -->
                         </div>
 
                         <div id="qrText" style="display:none;">
@@ -74,7 +79,6 @@
                             <div id="qrcode" style="text-align: center"></div>
                             <script src="qrcode.min.js"></script>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -82,7 +86,7 @@
 
         </div>
         <footer>
-            <p class="text-center text-gray tiny-text margin-top-75"><strong>SDK Version:</strong> 0.11.1</BR></BR>
+            <p style="color: #f1e5f3;" class="text-center text-gray tiny-text margin-top-75"><strong>SDK Version:</strong> 0.11.1</BR></BR>
                 <strong>Minimum MS Authenticator version required:</strong></BR></BR>
                 Android: 6.2102.1274</BR>
                 IOS: 6.5.38
@@ -96,10 +100,11 @@
     var signIn = document.getElementById('sign-in');
     var signOut = document.getElementById('sign-out');
     var display = document.getElementById('display');
-    var video = document.getElementById('userVid');
+    var video = document.getElementById('witnessVid');
+    var changed = 0; 
     var qrcode = new QRCode("qrcode", { width: 300, height: 300 });
     var qrcodeu1 = new QRCode("qrcodeu1", {
-        text: "http://localhost:8081/user1verify",
+        text: "http://localhost:8081/witness1verify",
         width: 200,
         height: 200,
         colorDark: "#000000",
@@ -108,7 +113,7 @@
     });
 
     var qrcodeu2 = new QRCode("qrcodeu2", {
-        text: "http://localhost:8081/user2verify",
+        text: "http://localhost:8081/witness2verify",
         width: 200,
         height: 200,
         colorDark: "#000000",
@@ -118,10 +123,9 @@
 
     var othersVerify = document.getElementById('verButton');
 
-
     function uploadedVideo() {
-        document.getElementById('userVidText').innerHTML = "Video sucessfully attached to DID!"
-        document.getElementById('userVid').style.display = "none"
+        document.getElementById('witnessVidText').innerHTML = "Video sucessfully attached to DID!"
+        document.getElementById('witnessVid').style.display = "none"
         document.getElementById('vidDiv').style.display = "none"
         document.getElementById('verButton').style.display = "none";
         document.getElementById('verStage').style.display = "block";
@@ -130,12 +134,12 @@
         fetch('issue-request')
             .then(function (response) {
                 response.text().then(function (message) {
-                    if (/Android/i.test(navigator.userAgent)) {
+                    if (/Android/i.test(navigator.witnessAgent)) {
                         console.log(`Android device! Using deep link (${message}).`);
                         window.location.href = message; setTimeout(function () {
                             window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator";
                         }, 2000);
-                    } else if (/iPhone/i.test(navigator.userAgent)) {
+                    } else if (/iPhone/i.test(navigator.witnessAgent)) {
                         console.log(`iOS device! Using deep link (${message}).`);
                         window.location.replace(message);
                     } else {
@@ -151,23 +155,23 @@
     }
 
     verButton.addEventListener('click', () => {
-        document.getElementById('userVid').style.display = "block";
+        document.getElementById('witnessVid').style.display = "block";
     })
 
     signIn.addEventListener('click', () => {
 
         document.getElementById('verStage').style.display = "none";
-        document.getElementById('userVidText').innerHTML = "Final step!"
+        document.getElementById('witnessVidText').innerHTML = "Final step!"
         chosen = 1;
         fetch('issue-request')
             .then(function (response) {
                 response.text().then(function (message) {
-                    if (/Android/i.test(navigator.userAgent)) {
+                    if (/Android/i.test(navigator.witnessAgent)) {
                         console.log(`Android device! Using deep link (${message}).`);
                         window.location.href = message; setTimeout(function () {
                             window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator";
                         }, 2000);
-                    } else if (/iPhone/i.test(navigator.userAgent)) {
+                    } else if (/iPhone/i.test(navigator.witnessAgent)) {
                         console.log(`iOS device! Using deep link (${message}).`);
                         window.location.replace(message);
                     } else {

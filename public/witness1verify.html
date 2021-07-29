@@ -5,8 +5,8 @@
     
     <head>
         <meta charset="utf-8">
-        <title>user1verify</title>
-        <meta name="user1verify" content="Verifiable Credentials Expert">
+        <title>witness1verify</title>
+        <meta name="witness1verify" content="Verifiable Credentials Expert">
         <link rel="stylesheet" href="styles.css">
         <link rel="icon" href="favicon.png">
     
@@ -14,17 +14,17 @@
     
     <body>
         <div id="wrap">
-            <div style="text-align: center;">
-                <h2>User 1 Verification page</h2>
+            <div style="text-align: center; margin-top: 150px;">
+                <h1>Witness 1</h1>
                 <div class="card-container">
                     <div class="card" style="background-color: #6d20ac;">
                         <div class="container">
     
-                            <h3 id="userVidText"><b>Upload the video of the user you are verifying.</b></h3>
+                            <h3 id="userVidText"><b>Upload the video of the person you are verifying.</b></h3>
 
                             <div id="vidDiv" style="display:block;">
                             <br>
-                            <input id="userVideo1" type="file" onchange="uploadedVideo()" accept=" video/*"/>
+                            <input id="userVideo1" style="width: 200px;" type="file" onchange="uploadedVideo()" accept=" video/*"/>
 
                         </div>
     
@@ -35,7 +35,7 @@
     
             </div>
             <footer>
-                <p class="text-center text-gray tiny-text margin-top-75"><strong>SDK Version:</strong> 0.11.1</BR></BR>
+                <p style="color: #f1e5f3;" class="text-center text-gray tiny-text margin-top-75"><strong>SDK Version:</strong> 0.11.1</BR></BR>
                     <strong>Minimum MS Authenticator version required:</strong></BR></BR>
                     Android: 6.2102.1274</BR>
                     IOS: 6.5.38
@@ -46,14 +46,14 @@
     
     <script>
         var chosen = null;
+        var changed = 0;
         var video = document.getElementById('userVideo1');
         function uploadedVideo() {
             document.getElementById('userVidText').innerHTML = "Video sucessfully uploaded!"
             document.getElementById('userVideo1').style.display = "none"
-            
             // send check to index page about completion
+            
         }
-    
     </script>
     
     </html>

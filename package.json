@@ -12,6 +12,7 @@
     "@azure/identity": "1.1.0",
     "angular-cli": "^1.0.0-beta.28.3",
     "body-parser": "^1.18.3",
+    "eventbus": "0.0.3",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "fetch-mock": "^9.10.7",

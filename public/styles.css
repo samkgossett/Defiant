@@ -1,5 +1,5 @@
 html { background-image: url('backdrop.jpg'); height: 100%;
-  font-family: sans-serif; }
+  font-family: 'Courier New', monospace; }
 
   h1 {
     font-size: 80px;
@@ -10,11 +10,23 @@ html { background-image: url('backdrop.jpg'); height: 100%;
 
 h2 {
     padding-top: 30px;
-    font-size: 35px;
-    color: #e7cbe6;
+    font-size: 30px;
+    color: #e7c4f0;
     font-weight: 500;
 }
+h3 {
+  color: #e7c4f0;
+  font-size: 30px;
+  
+  line-height: 1.6;
 
+}
+p {
+  color: #f1e5f3;
+  font-size: 20px;
+  line-height: 1.6;
+
+}
 .loader {
     border: 16px solid #f3f3f3;
     border-radius: 50%;
@@ -84,7 +96,7 @@ h2 {
 .card {
     border-radius: 4px;
     background-color: #6d20ac;
-    width: 500px;
+    width: 600px;
     min-height: 100px;
     margin: 0 8px 16px;
     padding: 16px;
